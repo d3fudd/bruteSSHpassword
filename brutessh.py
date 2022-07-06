@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # Bibliotecas
-import paramiko,sys,re
+import paramiko,sys,re,codecs
 
 # Constantes para facilitar a utilização das cores
 class bcolors:
@@ -26,7 +26,7 @@ alvo = sys.argv[1]
 usuario = sys.argv[2]
 
 # Abre a lista do argumento de senhas
-f = open(sys.argv[3])
+f = codecs.open(sys.argv[3], 'r', encoding='utf-8', errors='ignore')
 
 # Exibe o banner e indica qual eh o alvo
 print (bcolors.RED + "\n ┏┓ ┏━┓╻ ╻╺┳╸┏━╸   ┏━┓┏━┓╻ ╻ " + bcolors.END)
